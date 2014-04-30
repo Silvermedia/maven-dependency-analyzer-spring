@@ -16,8 +16,10 @@
 package org.apache.maven.shared.dependency.analyzer;
 
 import java.io.IOException;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Logger;
 
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.project.MavenProject;
@@ -25,8 +27,6 @@ import org.apache.maven.shared.dependency.analyzer.spring.ArtifactForClassResolv
 import org.apache.maven.shared.dependency.analyzer.spring.DefaultSpringXmlFileLocator;
 import org.apache.maven.shared.dependency.analyzer.spring.DefaultSpringXmlParser;
 import org.apache.maven.shared.dependency.analyzer.spring.SpringProjectDependencyAnalyzer;
-import org.codehaus.plexus.logging.LogEnabled;
-import org.codehaus.plexus.logging.Logger;
 
 /**
  * @author tobias.gierke@code-sourcery.de
@@ -34,39 +34,31 @@ import org.codehaus.plexus.logging.Logger;
  */
 public class MavenSpringProjectDependencyAnalyzer
     extends DefaultProjectDependencyAnalyzer
-    implements LogEnabled
 {
-    private Logger log;
+    private static Logger log = Logger.getLogger(MavenSpringProjectDependencyAnalyzer.class.getCanonicalName());
 
     @SuppressWarnings( "unchecked" )
     @Override
-    protected Set<String> buildDependencyClasses( MavenProject project, final Map artifactClassMap )
+    protected Set<String> buildDependencyClasses( MavenProject project )
         throws java.io.IOException
     {
-        final Map<Artifact, Set<String>> typedMap = artifactClassMap;
-        final Set<String> result = super.buildDependencyClasses( project, typedMap );
+        final Map<Artifact, Set<String>> typedMap = new LinkedHashMap<Artifact, Set<String>>();
+        final Set<String> result = super.buildDependencyClasses( project );
 
-        if ( log != null && log.isInfoEnabled() )
-        {
-            log.info( "Including dependencies from Spring XMLs in analysis" );
-        }
+        log.info( "Including dependencies from Spring XMLs in analysis" );
 
         final ArtifactForClassResolver resolver = new ArtifactForClassResolver()
         {
             @Override
             public Artifact findArtifactForClass( String className )
             {
-                return findArtifactForClassName( artifactClassMap, className );
+                return findArtifactForClassName( typedMap, className );
             }
         };
 
         final SpringProjectDependencyAnalyzer analyzer = new SpringProjectDependencyAnalyzer();
 
-        analyzer.setLog( log );
-
         final DefaultSpringXmlFileLocator fileLocator = new DefaultSpringXmlFileLocator();
-
-        fileLocator.setLog( log );
 
         analyzer.setFileLocator( fileLocator );
         analyzer.setFileParser( new DefaultSpringXmlParser() );
@@ -93,9 +85,7 @@ public class MavenSpringProjectDependencyAnalyzer
     }
 
     @Override
-    public void enableLogging( Logger logger )
-    {
-        this.log = logger;
+    protected org.apache.maven.artifact.Artifact findArtifactForClassName(Map<org.apache.maven.artifact.Artifact, Set<String>> artifactClassMap, String className) {
+        return super.findArtifactForClassName(artifactClassMap, className);
     }
-
 }
