@@ -34,11 +34,6 @@ public class DefaultSpringXmlParserTest
 
     private DefaultSpringXmlParser parser;
 
-    private static final String SIMPLE_XML =
-        "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n" + "<beans>\n"
-            + "<bean id=\"someBean\" class=\"some.package.SomeClass\" />\n"
-            + "<bean id=\"someOtherBean\" class=\"some.other.package.SomeOtherClass\" />\n" + "</beans>";
-
     private static final String SIMPLE_XML_WITH_NS =
         "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n"
             + "<beans xmlns=\"http://www.springframework.org/schema/beans\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:aop=\"http://www.springframework.org/schema/aop\" xmlns:tx=\"http://www.springframework.org/schema/tx\"\n"
@@ -84,22 +79,6 @@ public class DefaultSpringXmlParserTest
     }
 
     public void testParseValidFile()
-        throws Exception
-    {
-
-        final SpringFileBeanVisitor visitor = createMock( SpringFileBeanVisitor.class );
-
-        visitor.visitBeanDefinition( "some.package.SomeClass" );
-        visitor.visitBeanDefinition( "some.other.package.SomeOtherClass" );
-
-        replay( visitor );
-
-        parser.parse( toStream( SIMPLE_XML ), visitor );
-
-        verify( visitor );
-    }
-
-    public void testParseValidFileWithNamespaces()
         throws Exception
     {
 

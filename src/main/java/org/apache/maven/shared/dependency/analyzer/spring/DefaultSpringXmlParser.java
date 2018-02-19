@@ -28,6 +28,7 @@ import javax.xml.stream.events.XMLEvent;
 public class DefaultSpringXmlParser
     implements SpringXmlParser
 {
+    private static final String SPRING_NAMESPACE = "http://www.springframework.org/schema/beans";
 
     private final XMLInputFactory inputFactory;
     
@@ -56,10 +57,11 @@ public class DefaultSpringXmlParser
 
                 final StartElement startElement = event.asStartElement();
                 final String tagName = startElement.getName().getLocalPart();
+                final String namespaceURI = startElement.getName().getNamespaceURI();
 
                 if ( !isSpringXml )
                 {
-                    if ( !"beans".equals( tagName ) )
+                    if ( !"beans".equals( tagName ) || !SPRING_NAMESPACE.equals( namespaceURI ) )
                     {
                         throw new NoSpringXmlException( "Not a Spring XML file, expected <beans> root element",
                                                         event.getLocation().getCharacterOffset() );
@@ -75,7 +77,10 @@ public class DefaultSpringXmlParser
                     }
                 }
             }
-
+        }
+        catch ( javax.xml.stream.XMLStreamException e )
+        {
+            throw new NoSpringXmlException( "Exception while parsing XML file" );
         }
         finally
         {

@@ -37,6 +37,11 @@ public interface SpringXmlParser
 
         private static final long serialVersionUID = 1L;
 
+        public NoSpringXmlException( String msg )
+        {
+            super( msg, -1 );
+        }
+
         public NoSpringXmlException( String msg, int offset )
         {
             super( msg, offset );
