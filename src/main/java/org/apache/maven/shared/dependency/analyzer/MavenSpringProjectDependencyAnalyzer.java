@@ -42,7 +42,7 @@ public class MavenSpringProjectDependencyAnalyzer
     protected Set<String> buildDependencyClasses( MavenProject project )
         throws java.io.IOException
     {
-        final Map<Artifact, Set<String>> typedMap = new LinkedHashMap<Artifact, Set<String>>();
+        final Map<Artifact, Set<String>> typedMap = buildArtifactClassMap( project );
         final Set<String> result = super.buildDependencyClasses( project );
 
         log.info( "Including dependencies from Spring XMLs in analysis" );
