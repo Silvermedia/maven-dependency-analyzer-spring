@@ -20,10 +20,10 @@
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>org.jjfeiler.maven.shared</groupId>
+    <groupId>com.silvermedia.3rdparty.org.jjfeiler.maven.shared</groupId>
     <artifactId>maven-dependency-analyzer-spring</artifactId>
     <packaging>jar</packaging>
-    <version>1.0.0</version>
+    <version>1.0.0.silvermedia1-SNAPSHOT</version>
     <description>A ProjectDependencyAnalyzer that also considers runtime dependencies introduced by a project's Spring XML files</description>
     <name>Maven Spring Dependency Analyzer</name>
 
@@ -317,10 +317,4 @@
             -->
         </plugins>
     </build>
-
-    <scm>
-        <connection>scm:git:http//github.com/jjfeiler/maven-dependency-analyzer-spring.git</connection>
-        <developerConnection>scm:git:http//github.com/jjfeiler/maven-dependency-analyzer-spring.git</developerConnection>
-        <url>http://github.com/jjfeiler/maven-dependency-analyzer-spring</url>
-    </scm>
 </project>
