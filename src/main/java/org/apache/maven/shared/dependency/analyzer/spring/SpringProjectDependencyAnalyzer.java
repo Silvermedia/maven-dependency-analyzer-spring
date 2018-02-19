@@ -41,8 +41,6 @@ public class SpringProjectDependencyAnalyzer
 
     private SpringXmlFileLocator fileLocator;
 
-    private ArtifactForClassResolver resolver;
-
     private Logger log;
 
     public SpringProjectDependencyAnalyzer()
@@ -66,7 +64,7 @@ public class SpringProjectDependencyAnalyzer
     public void addSpringDependencyClasses( MavenProject project, final Set<String> dependentClasses )
         throws Exception
     {
-        final SpringFileBeanVisitor beanVisitor = new DefaultSpringXmlBeanVisitor( this.resolver, dependentClasses );
+        final SpringFileBeanVisitor beanVisitor = new DefaultSpringXmlBeanVisitor( dependentClasses );
 
         for ( File springXml : fileLocator.locateSpringXmls( project ) )
         {
@@ -112,8 +110,4 @@ public class SpringProjectDependencyAnalyzer
         this.fileLocator = fileLocator;
     }
 
-    public void setResolver( ArtifactForClassResolver resolver )
-    {
-        this.resolver = resolver;
-    }
 }

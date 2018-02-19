@@ -23,7 +23,6 @@ import java.util.logging.Logger;
 
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.project.MavenProject;
-import org.apache.maven.shared.dependency.analyzer.spring.ArtifactForClassResolver;
 import org.apache.maven.shared.dependency.analyzer.spring.DefaultSpringXmlFileLocator;
 import org.apache.maven.shared.dependency.analyzer.spring.DefaultSpringXmlParser;
 import org.apache.maven.shared.dependency.analyzer.spring.SpringProjectDependencyAnalyzer;
@@ -47,22 +46,12 @@ public class MavenSpringProjectDependencyAnalyzer
 
         log.info( "Including dependencies from Spring XMLs in analysis" );
 
-        final ArtifactForClassResolver resolver = new ArtifactForClassResolver()
-        {
-            @Override
-            public Artifact findArtifactForClass( String className )
-            {
-                return findArtifactForClassName( typedMap, className );
-            }
-        };
-
         final SpringProjectDependencyAnalyzer analyzer = new SpringProjectDependencyAnalyzer();
 
         final DefaultSpringXmlFileLocator fileLocator = new DefaultSpringXmlFileLocator();
 
         analyzer.setFileLocator( fileLocator );
         analyzer.setFileParser( new DefaultSpringXmlParser() );
-        analyzer.setResolver( resolver );
 
         try
         {

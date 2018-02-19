@@ -176,12 +176,6 @@ public class SpringProjectDependencyAnalyzerTest
 
         analyzer.setFileParser( fileParser );
 
-        final ArtifactForClassResolver resolver = createMock( ArtifactForClassResolver.class );
-
-        replay( resolver );
-
-        analyzer.setResolver( resolver );
-
         // run test
         final Set<String> dependencies = new HashSet<String>();
         analyzer.addSpringDependencyClasses( project, dependencies );
@@ -190,7 +184,6 @@ public class SpringProjectDependencyAnalyzerTest
 
         verify( fileLocator );
         verify( fileParser );
-        verify( resolver );
     }
 
     public void testAnalyzeWithInvalidSpringXML()
@@ -219,12 +212,6 @@ public class SpringProjectDependencyAnalyzerTest
 
         analyzer.setFileParser( fileParser );
 
-        final ArtifactForClassResolver resolver = createMock( ArtifactForClassResolver.class );
-
-        replay( resolver );
-
-        analyzer.setResolver( resolver );
-
         // run test
         final Set<String> dependencies = new HashSet<String>();
         analyzer.addSpringDependencyClasses( project, dependencies );
@@ -233,6 +220,5 @@ public class SpringProjectDependencyAnalyzerTest
 
         verify( fileLocator );
         verify( fileParser );
-        verify( resolver );
     }
 }
