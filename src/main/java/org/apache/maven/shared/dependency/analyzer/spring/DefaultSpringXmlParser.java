@@ -16,11 +16,13 @@
 package org.apache.maven.shared.dependency.analyzer.spring;
 
 import java.io.BufferedInputStream;
+import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.Iterator;
 
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.XMLResolver;
 import javax.xml.stream.events.Attribute;
 import javax.xml.stream.events.StartElement;
 import javax.xml.stream.events.XMLEvent;
@@ -34,6 +36,12 @@ public class DefaultSpringXmlParser
     
     public DefaultSpringXmlParser() {
         inputFactory = XMLInputFactory.newInstance();
+        inputFactory.setXMLResolver(new XMLResolver() {
+            @Override
+            public Object resolveEntity(String publicID, String systemID, String baseURI, String namespace) {
+                return new ByteArrayInputStream(new byte[0]);
+            }
+        });
     }
     
     @Override
